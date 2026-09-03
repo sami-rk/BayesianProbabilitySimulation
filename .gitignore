@@ -14,7 +14,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Exclude assignment notebook
+# Exclude notebooks
 EPS_CA2_810103434*.ipynb
 EPS_CA2*.ipynb
 *810103434*.ipynb
