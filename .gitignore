@@ -1,0 +1,29 @@
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exclude original assignment notebook (must never be tracked)
+EPS_CA2_810103434*.ipynb
+EPS_CA2*.ipynb
+*810103434*.ipynb
+
+# Keep these despite generic ignores
+!data/emails.csv
+!results/*.png
+!results/*.pdf
+
+# Temp / logs
+*.log
+tempCodeRunnerFile.py
