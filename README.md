@@ -2,7 +2,7 @@
 
 Bayesian inference and Monte Carlo simulation in R — airport security, fraud detection, Monty Hall, infinite monkey, and Naive Bayes spam classification with corrected theory and reproducible simulations.
 
-A refactored, question-free notebook that keeps the core concepts of `EPS_CA2_810103434` but fixes all theoretical and code issues, validates every analytical result with Monte Carlo simulation, and demonstrates convergence via the Law of Large Numbers.
+A question-free notebook presenting Bayesian concepts through analytical derivations and Monte Carlo simulations, validating every analytical result with simulation and demonstrating convergence via the Law of Large Numbers.
 
 ---
 
@@ -27,8 +27,6 @@ A refactored, question-free notebook that keeps the core concepts of `EPS_CA2_81
 └── README.md
 ```
 
-> The original assignment notebook `EPS_CA2_810103434 (1).ipynb` is excluded via `.gitignore` and never tracked.
-
 ---
 
 ## Part 1 — Bayesian Reasoning with Simulation
@@ -42,14 +40,12 @@ A refactored, question-free notebook that keeps the core concepts of `EPS_CA2_81
 * Law of Total Probability: `P(Alarm)=0.90×0.05+0.08×0.95=0.121`
 * Bayes: `P(Object|Alarm)=0.045/0.121=45/121≈0.3719`
 
-**Fix vs original:** Replaced deterministic `rep(...)+sample()` shuffle (zero variance, breaks for `N=10` where `N·p=0.5`) with correct `rbinom(N,1,p)` per passenger. Added `NA` guard for zero alarms and `B=300` replicated convergence with mean±SD band on log-x axis.
-
-**Results (N=100,000, seed 42):**
+**Results (N=100,000, seed 9248):**
 
 | Quantity | Analytical | Empirical |
 |----------|------------|-----------|
-| P(Alarm) | 0.1210 | 0.1217 |
-| P(Object\|Alarm) | 0.3719 | 0.3780 |
+| P(Alarm) | 0.1210 | 0.1198 |
+| P(Object\|Alarm) | 0.3719 | 0.3632 |
 
 <p align="center">
   <img src="results/airport_comparison.png" alt="Airport comparison" width="600">
@@ -68,14 +64,12 @@ A refactored, question-free notebook that keeps the core concepts of `EPS_CA2_81
 * `P(Odd)=0.014+0.049=0.063`, `P(Fraud|Odd)=14/63≈0.2222`
 * Under **conditional independence** `P(Odd,Large|Fraud)=0.42`, `P(Odd,Large|¬Fraud)=0.005`, `P(Odd,Large)=0.0133`, `P(Fraud|Odd,Large)=84/133≈0.6316`
 
-> Fix: corrected `84/113` → `84/133`, added explicit independence statement, fixed "OldCountry" typo. Empty sensitivity cell implemented.
-
-**Results (N=200,000, seed 123):**
+**Results (N=200,000, seed 9248):**
 
 | Quantity | Analytical | Empirical |
 |----------|------------|-----------|
-| P(Fraud\|Odd) | 0.2222 | 0.2207 |
-| P(Fraud\|Odd,Large) | 0.6316 | 0.6197 |
+| P(Fraud\|Odd) | 0.2222 | 0.2200 |
+| P(Fraud\|Odd,Large) | 0.6316 | 0.6301 |
 
 <p align="center">
   <img src="results/fraud_single_comparison.png" alt="Fraud single" width="400">
@@ -94,7 +88,7 @@ A refactored, question-free notebook that keeps the core concepts of `EPS_CA2_81
 
 **Theory:** `P(Win|Stay)=1/3`, `P(Win|Switch)=2/3`.
 
-**Results (N=10,000):** `Switch≈0.6575`, `Stay≈0.3425`.
+**Results (N=10,000, seed 9248):** `Switch≈0.6645`, `Stay≈0.3355`.
 
 <p align="center">
   <img src="results/monty_comparison.png" alt="Monty Hall" width="600">
@@ -104,7 +98,7 @@ A refactored, question-free notebook that keeps the core concepts of `EPS_CA2_81
 
 **Theory:** `p=1/26^4≈2.19e-6` per 4-letter draw. `P(at least once in N)=1-(1-p)^N`.
 
-Per-trial `N=1,000,000`: hits `4` → `4.0e-06` vs expected `2.19e-06`.
+Per-trial `N=1,000,000` (seed 9248): hits `1` → `1.0e-06` vs expected `2.19e-06`.
 
 <p align="center">
   <img src="results/monkey_convergence.png" alt="Monkey convergence" width="750">
@@ -120,13 +114,11 @@ Per-trial `N=1,000,000`: hits `4` → `4.0e-06` vs expected `2.19e-06`.
 2. **DTM after split** — `weightBin` + `removeSparseTerms(0.999)` → `5904` terms, test uses `dictionary=train_terms`.
 3. **Bernoulli model** — `P(w|y)=(df+1)/(N_y+2)`.
 
-**Fixes vs original:** Leakage before split, `N_y+V` denominator, count vs binary mismatch.
-
-**Results:**
+**Results (seed 9248):**
 
 ```
-Manual Bernoulli NB (fixed) : Accuracy 0.9764  Precision 0.9130  Recall 0.9964  F1 0.9529
-e1071 Bernoulli NB (laplace=1): Accuracy 0.9764  Precision 0.9130  Recall 0.9964  F1 0.9529
+Manual Bernoulli NB : Accuracy 0.9791  Precision 0.9223  Recall 0.9964  F1 0.9579
+e1071 Bernoulli NB (laplace=1): Accuracy 0.9791  Precision 0.9223  Recall 0.9964  F1 0.9579
 ```
 
 <p align="center">
