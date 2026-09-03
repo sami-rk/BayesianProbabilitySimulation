@@ -117,9 +117,11 @@ Per-trial `N=1,000,000` (seed 9248): hits `1` → `1.0e-06` vs expected `2.19e-0
 **Results (seed 9248):**
 
 ```
-Manual Bernoulli NB : Accuracy 0.9791  Precision 0.9223  Recall 0.9964  F1 0.9579
-e1071 Bernoulli NB (laplace=1): Accuracy 0.9791  Precision 0.9223  Recall 0.9964  F1 0.9579
+Manual Bernoulli NB (laplace=1) : Accuracy 0.9791  Precision 0.9223  Recall 0.9964  F1 0.9579
+e1071 Bernoulli NB (laplace=0)  : Accuracy 0.9677  Precision 0.8835  Recall 0.9964  F1 0.9365
 ```
+
+Smoothing (`laplace=1`) gives manual a small edge on rare words; `e1071` with `laplace=0` is unsmoothed. Both use train-only vocabulary and binary features — results differ modestly but remain correct.
 
 <p align="center">
   <img src="results/spam_metrics_comparison.png" alt="Spam metrics" width="600">
